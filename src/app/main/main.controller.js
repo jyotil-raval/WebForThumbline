@@ -5,35 +5,44 @@
     .module('web')
     .controller('MainController', MainController);
 
+  MainController.$inject = ['$timeout', 'webDevTec', 'toastr', 'Restangular', 'Lightbox'];
+
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
+  function MainController($timeout, webDevTec, toastr, Restangular, Lightbox) {
     var vm = this;
 
-    vm.awesomeThings = [];
-    vm.classAnimation = '';
-    vm.creationDate = 1491194333955;
-    vm.showToastr = showToastr;
+    vm.Imagesss = [];
 
     activate();
 
+    function getImages() {
+      Restangular
+      .one('api/?key=5046360-1b01f7d3ca7984c3e5ce8c7f8')
+      .get()
+      .then(function (response) {
+        response.data.hits.forEach(function (hit) {
+          vm.Imagesss.push({
+            'thumbUrl':hit.previewURL,
+            'url':hit.webformatURL
+          })
+        });
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    }
+
+    vm.openLightBox = openLightBox;
+    function openLightBox(idx) {
+      Lightbox.openModal(vm.Imagesss, idx);
+    }
+
     function activate() {
-      getWebDevTec();
       $timeout(function() {
         vm.classAnimation = 'rubberBand';
       }, 4000);
-    }
 
-    function showToastr() {
-      toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-      vm.classAnimation = '';
-    }
-
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
-      });
+      getImages();
     }
   }
 })();
