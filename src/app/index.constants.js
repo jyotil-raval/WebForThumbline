@@ -3,7 +3,6 @@
   'use strict';
 
   angular
-    .module('web')
-    .constant('moment', moment);
+    .module('web');
 
 })();
