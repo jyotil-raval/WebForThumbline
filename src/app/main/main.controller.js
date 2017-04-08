@@ -5,10 +5,10 @@
     .module('web')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$timeout', 'webDevTec', 'toastr', 'Restangular', 'Lightbox'];
+  MainController.$inject = ['$timeout', 'toastr', 'Restangular', 'Lightbox'];
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr, Restangular, Lightbox) {
+  function MainController($timeout, toastr, Restangular, Lightbox) {
     var vm = this;
 
     vm.Imagesss = [];
